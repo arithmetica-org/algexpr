@@ -29,7 +29,6 @@ std::string algexpr::to_string() {
   std::string left, right;
   if (l != nullptr) {
     left = l->to_string();
-    cout << "" // DEBUGUWU
   }
   if (r != nullptr) {
     right = r->to_string();
