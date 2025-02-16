@@ -1,22 +1,23 @@
 #include "algexpr.hpp"
 
 namespace algexpr {
-bool algexpr::is_opening_bracket(const char &c) {
+bool algexpr::is_opening_bracket(const char &c) const {
   return c == '(' or c == '[' or c == '{';
 }
 
-bool algexpr::is_closing_bracket(const char &c) {
+bool algexpr::is_closing_bracket(const char &c) const {
   return c == ')' or c == ']' or c == '}';
 }
 
-int algexpr::find_sign(const std::string &s, const char &c, bool backward) {
+int algexpr::find_sign(const std::string &s, const char &c, bool backward,
+                       bool exclude_first) const {
   int i = backward * (s.length() - 1);
   int bal = 0;
   while ((backward and i >= 0) or (!backward and i < s.length())) {
     bal += is_opening_bracket(s[i]);
     bal -= is_closing_bracket(s[i]);
     // i == 0 implies something like "-1" or "+1"
-    if (bal == 0 and s[i] == c and i != 0) {
+    if (bal == 0 and s[i] == c and (!exclude_first or i != 0)) {
       return i;
     }
     i -= 2 * backward - 1;
@@ -51,6 +52,9 @@ std::pair<int, int> algexpr::get_first_bracket_pair(const std::string &s) {
       ans.second = i;
     }
     bal -= is_closing_bracket(s[i]);
+    if (bal == 0 and ans.first != -1 and ans.second != -1) {
+      break;
+    }
   }
   return ans;
 }
@@ -122,6 +126,19 @@ algexpr::algexpr(std::string s) : l(nullptr), r(nullptr) {
     } else {
       s = s.substr(l, r - l + 1);
     }
+  }
+
+  // -1 in particular
+  if (s == "-1") {
+    coeff = s;
+    return;
+  }
+  // +x and -x
+  while (s[0] == '+') {
+    s = s.substr(1, s.length() - 1);
+  }
+  if (s[0] == '-') {
+    s = "(-1)*" + s.substr(1, s.length() - 1);
   }
 
   std::array<char, 5> signs = {'+', '-', '*', '/', '^'};

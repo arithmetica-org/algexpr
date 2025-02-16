@@ -10,13 +10,16 @@ namespace algexpr {
 typedef arithmetica::Fraction frac;
 class algexpr {
 private:
-  std::string add_parentheses_if_needed(const std::string &s) const;
+  bool has_non_number(const std::string &s) const;
+  std::string add_parentheses_if_needed(const std::string &s,
+                                        const std::string &f) const;
   std::string stringify_function_call(const std::string &f,
                                       const std::string &l,
                                       const std::string &r) const;
-  bool is_opening_bracket(const char &c);
-  bool is_closing_bracket(const char &c);
-  int find_sign(const std::string &s, const char &c, bool backward);
+  bool is_opening_bracket(const char &c) const;
+  bool is_closing_bracket(const char &c) const;
+  int find_sign(const std::string &s, const char &c, bool backward,
+                bool exclude_first = true) const;
   int closing_bracket(const std::string &s, int st);
   std::pair<int, int> get_first_bracket_pair(const std::string &s);
   bool is_function(const std::string &s);
@@ -53,7 +56,8 @@ public:
   algexpr evaluate_multiplication(); // you need func == "*"
   algexpr combine_like_terms();
 
-  algexpr simplify(); // simplifies, using all the functions above
+  void simplify_in_place(); // simplifies, using all the functions above
+  algexpr simplify();       // simplifies, using all the functions above
 };
 
 algexpr operator+(const algexpr &a, const algexpr &b);

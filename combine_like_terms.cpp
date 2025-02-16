@@ -36,6 +36,9 @@ algexpr algexpr::combine_like_terms() {
   ans.l = nullptr, ans.r = nullptr, ans.coeff = constant;
   bool modified_ans = constant.to_string() != "0";
   for (auto [i, j] : mp) {
+    if (j.is_natural_number() and j.coeff.to_string() == "0") {
+      continue;
+    }
     if (!modified_ans) {
       modified_ans = true;
       ans = j.is_natural_number() and j.coeff.to_string() == "1" ? i : j * i;

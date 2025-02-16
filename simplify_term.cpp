@@ -28,6 +28,9 @@ algexpr algexpr::simplify_term(bool bring_coeff_to_front) {
       mp[*term.l] = *term.r;
     }
   }
+  for (auto &i : mp) {
+    i.second = i.second.combine_like_terms();
+  }
   algexpr ans;
   ans.coeff = "1";
   bool ans_modified = false;

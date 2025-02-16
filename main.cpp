@@ -5,11 +5,6 @@ int main() {
   // also c _{earth} is an edge case (note the space between the thing and the
   // _): to fix remove spaces behind _ (which are not in brackets) maybe?
 
-  // to fix: "x^(-sin(x))"
-  //       : "+x"
-  //       : "-x"
-  //       : "(x)(x)"
-
   // todo: add explicit multiplcation sign behind []/[] and []^[]
 
   while (true) {
@@ -20,4 +15,7 @@ int main() {
     algexpr::algexpr expr(s);
     std::cout << expr.simplify().to_string() << '\n';
   }
+
+  algexpr::algexpr expr("-x");
+  std::cout << expr.to_string() << '\n';
 }

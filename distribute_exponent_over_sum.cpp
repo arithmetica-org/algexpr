@@ -5,6 +5,11 @@ algexpr algexpr::distribute_exponent_over_sum() {
   if (func != "^") {
     return *this;
   }
+  if (l->is_numeric() and l->coeff.to_string() == "1") {
+    algexpr ans;
+    ans.coeff = "1";
+    return ans;
+  }
   if (!r->is_natural_number()) {
     return *this;
   }
@@ -14,7 +19,7 @@ algexpr algexpr::distribute_exponent_over_sum() {
       constant = constant * l->coeff;
     }
     algexpr ans;
-    ans.l = nullptr, ans.r = nullptr, ans.coeff = constant;
+    ans.coeff = constant;
     return ans;
   }
   algexpr ans("1");
@@ -27,6 +32,7 @@ algexpr algexpr::distribute_exponent_over_sum() {
       ans = (ans * *l).evaluate_multiplication();
     }
   }
+  ans = ans.combine_like_terms();
   return ans;
 }
 } // namespace algexpr
