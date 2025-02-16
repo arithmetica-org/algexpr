@@ -1,7 +1,7 @@
 #include "algexpr.hpp"
 
 namespace algexpr {
-algexpr algexpr::deep_copy() {
+algexpr algexpr::deep_copy() const {
   algexpr copy;
   copy.func = func;
   copy.coeff = coeff;

@@ -4,7 +4,6 @@ project(algparse)
 
 set(CMAKE_CXX_STANDARD 17) 
 set(CMAKE_CXX_STANDARD_REQUIRED True)
-
 include_directories("/usr/local/include")
 link_directories("/usr/local/lib")
 
@@ -12,8 +11,16 @@ set(SOURCES algexpr.cpp
             to_string.cpp
             deep_copy.cpp
             decompose_into_terms.cpp
-	    divide.cpp
-	    canonicalize_products.cpp
+	    decompose_into_products.cpp
+	    math_operators.cpp
+	    comparasion_operators.cpp
+            distribute_exponent_over_product.cpp
+	    distribute_exponent_over_sum.cpp
+	    simplify_term.cpp
+            numeric_checks.cpp
+	    evaluate_multiplication.cpp
+            combine_like_terms.cpp
+	    simplify.cpp
             main.cpp)
 
 add_executable(algparse ${SOURCES})

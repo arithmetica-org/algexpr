@@ -26,7 +26,7 @@ std::vector<algexpr> algexpr::decompose_into_terms() {
     }
     return ans;
   }
-  ans.push_back(*this);
+  ans.push_back(deep_copy());
   return ans;
 }
 

@@ -3,15 +3,17 @@
 #include <algorithm>
 #include <arithmetica.hpp>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 namespace algexpr {
 typedef arithmetica::Fraction frac;
 class algexpr {
 private:
+  std::string add_parentheses_if_needed(const std::string &s) const;
   std::string stringify_function_call(const std::string &f,
                                       const std::string &l,
-                                      const std::string &r);
+                                      const std::string &r) const;
   bool is_opening_bracket(const char &c);
   bool is_closing_bracket(const char &c);
   int find_sign(const std::string &s, const char &c, bool backward);
@@ -36,14 +38,28 @@ public:
   algexpr(const algexpr &other);
   algexpr(std::string s);
 
-  std::string to_string();
+  std::string to_string() const;
 
-  algexpr deep_copy();
+  bool is_numeric();
+  bool is_natural_number(); // [0,1,...,inf)
+
+  algexpr deep_copy() const;
   std::vector<algexpr> decompose_into_terms();
+  std::vector<algexpr> decompose_into_products();
 
-  // todo
-  void canonicalize_products();
+  algexpr distribute_exponent_over_product();
+  algexpr simplify_term(bool bring_coeff_to_front = true); // single product
+  algexpr distribute_exponent_over_sum();                  // expands (...)^n
+  algexpr evaluate_multiplication(); // you need func == "*"
+  algexpr combine_like_terms();
+
+  algexpr simplify(); // simplifies, using all the functions above
 };
 
-algexpr operator/(algexpr a, algexpr b);
+algexpr operator+(const algexpr &a, const algexpr &b);
+algexpr operator-(const algexpr &a, const algexpr &b);
+algexpr operator*(const algexpr &a, const algexpr &b);
+algexpr operator/(const algexpr &a, const algexpr &b);
+algexpr operator^(const algexpr &a, const algexpr &b);
+bool operator==(const algexpr &a, const algexpr &b);
 } // namespace algexpr

@@ -18,12 +18,6 @@ int main() {
     std::getline(std::cin, s);
 
     algexpr::algexpr expr(s);
-    std::cout << expr.to_string() << '\n';
-
-    auto terms = expr.decompose_into_terms();
-    std::cout << terms.size() << " terms\n";
-    for (auto &i : terms) {
-      std::cout << i.to_string() << '\n';
-    }
+    std::cout << expr.simplify().to_string() << '\n';
   }
 }
