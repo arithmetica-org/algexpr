@@ -31,8 +31,8 @@ algexpr algexpr::distribute_exponent_over_sum() {
     } else {
       ans = (ans * *l).evaluate_multiplication();
     }
+    ans = ans.combine_like_terms();
   }
-  ans = ans.combine_like_terms();
   return ans;
 }
 } // namespace algexpr
