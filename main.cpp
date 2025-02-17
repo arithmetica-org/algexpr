@@ -16,6 +16,7 @@ int main() {
     std::cout << expr.simplify().to_string() << '\n';
   }
 
-  algexpr::algexpr expr("-x");
+  algexpr::algexpr expr("x^(-1)*x");
+  expr = expr.simplify_term();
   std::cout << expr.to_string() << '\n';
 }

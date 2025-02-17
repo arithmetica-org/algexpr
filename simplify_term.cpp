@@ -36,6 +36,10 @@ algexpr algexpr::simplify_term(bool bring_coeff_to_front) {
   bool ans_modified = false;
   for (auto it = mp.begin(); it != mp.end(); ++it) {
     if (it->second.is_natural_number() and
+        it->second.coeff.to_string() == "0") {
+      continue;
+    }
+    if (it->second.is_natural_number() and
         it->second.coeff.to_string() == "1") {
       if (!ans_modified) {
         ans = it->first;
